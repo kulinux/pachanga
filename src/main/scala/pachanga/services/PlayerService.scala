@@ -38,11 +38,27 @@ class PlayerService {
 
     def joinScheduler(sch1: ScheduleItem, sch2: ScheduleItem): Seq[ScheduleItem] = {
         if(sch1.tpe.dayOfWeek != sch2.tpe.dayOfWeek) return Seq()
-        val startHour = max(sch1.range.start.hour, sch2.range.start.hour)
-        val endHour = min(sch1.range.end.hour, sch2.range.end.hour)
+        var start1Win = false
+        var end1Win = false
+        var startHour = sch2.range.start.hour
+        var startMin = sch2.range.start.min
+        if(sch1.range.start.hour > sch2.range.start.hour ||
+            ( sch1.range.start.hour == sch2.range.start.hour &&
+             sch1.range.start.min > sch2.range.start.min ) ) {
+            start1Win = true
+            startHour = sch1.range.start.hour
+            startMin = sch1.range.start.min
+        }
 
-        val startMin = max(sch1.range.start.min, sch2.range.start.min)
-        val endMin = min(sch1.range.end.min, sch2.range.end.min)
+        var endHour = sch2.range.end.hour
+        var endMin = sch2.range.end.min
+        if(sch1.range.end.hour < sch2.range.end.hour ||
+            ( sch1.range.end.hour == sch2.range.end.hour &&
+             sch1.range.end.min < sch2.range.end.min ) ) {
+            end1Win = true
+            endHour = sch1.range.end.hour
+            endMin = sch1.range.end.min
+        }
 
         if( startHour < endHour  || ( startHour == endHour && startMin < endMin ) ) {
            return Seq(ScheduleItem(sch1.tpe, HourRange(Hour(startHour, startMin), Hour(endHour, endMin))))
