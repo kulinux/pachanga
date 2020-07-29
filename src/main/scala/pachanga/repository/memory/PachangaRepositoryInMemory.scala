@@ -13,6 +13,10 @@ class PachangaRepositoryInMemory[F[_]: Applicative]
     private val memory =
         new InMemoryRepository[Pachanga](_.id, (p, id) => p.copy(id = id))
 
+    val cr = create(Pachanga("xxxx", "xxxx", Seq()))
+    println(cr)
+
+
     def create(pachanga: Pachanga): F[Pachanga] = 
         memory.create(pachanga).pure[F]
 

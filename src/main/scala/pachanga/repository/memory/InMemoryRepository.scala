@@ -8,11 +8,14 @@ class InMemoryRepository[T <: Product](getId: T => String, setId: (T, String) =>
     private val cache = new TrieMap[String, T]
     private val random = new Random
 
-    def create(item: T) = 
-        cache.put(getId(item), setId(item, randomUUID().toString())).get
+    def create(item: T) = {
+        val stored = setId(item, randomUUID().toString())
+        cache.put(getId(item), stored)
+        stored
+    }
 
     def get(id: String) = cache.get(id)
 
     def delete(id: String) = cache.remove(id)
-  
+
 }
