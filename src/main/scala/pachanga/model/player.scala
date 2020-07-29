@@ -8,3 +8,5 @@ case class HourRange(start: Hour, end: Hour)
 case class ScheduleItem(tpe: ScheduleTypeWeek, range: HourRange)
 case class Schedule(schs: Seq[ScheduleItem])
 case class Player(id: String, name: String, schedule: Schedule)
+
+case class Pachanga(id: String, name: String, players: Seq[String])

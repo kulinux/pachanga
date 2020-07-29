@@ -9,8 +9,6 @@ import pachanga.model.HourRange
 import pachanga.model.Hour
 
 class PlayerService {
-    case class TryMatch(mtch: Match, weight: Int)
-
 
     def findMatch(players: Seq[Player]): Option[Match] = {
         val cp: Seq[Seq[ScheduleItem]] = cartesianProduct(players.map(_.schedule.schs))
@@ -27,7 +25,7 @@ class PlayerService {
                 case seq :: remainingSeqs => seq.flatMap(i => loop(acc :+ i, remainingSeqs))
             }
         }
-    loop(Seq(), in)
+        loop(Seq(), in)
     }
 
     def findDate(sch: Seq[ScheduleItem]): Option[ScheduleItem] = 
