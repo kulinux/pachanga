@@ -24,11 +24,15 @@ class PachangaEndpoints[F[_]: Sync](repo: PachangaRepository[F]) extends Http4sD
 
     def pachangaRoutes(): HttpRoutes[F] = {
         HttpRoutes.of[F] {
-            case GET -> Root / id => 
+            case GET -> Root / id =>  {
                for {
                    res <- repo.get(id)
-                   json <- Ok(res.asJson)
+                   json <- res match {
+                       case Some(v) => Ok(v.asJson)
+                       case None => NotFound()
+                   }
                 } yield json
+            }
 
             case req @ POST -> Root => 
                 for {

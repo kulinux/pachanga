@@ -14,6 +14,11 @@ class InMemoryRepository[T <: Product](getId: T => String, setId: (T, String) =>
         stored
     }
 
+    def createWithId(item: T) = {
+        cache.put(getId(item), item)
+        item
+    }
+
     def get(id: String) = cache.get(id)
 
     def delete(id: String) = cache.remove(id)

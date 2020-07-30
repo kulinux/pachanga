@@ -25,7 +25,8 @@ object Server extends IOApp {
           "/order" -> PachangaEndpoints.endpoints[F](pachangaRepo)
       ).orNotFound
 
-      val finalHttpApp = Logger.httpApp(true, true)(httpApp)
+      //val finalHttpApp = Logger.httpApp(true, true)(httpApp)
+      val finalHttpApp = httpApp
 
       BlazeServerBuilder[F](global)
         .bindHttp(8080, "0.0.0.0")
