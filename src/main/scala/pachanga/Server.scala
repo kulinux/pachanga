@@ -22,7 +22,7 @@ object Server extends IOApp {
   def stream[F[_]: ConcurrentEffect](implicit T: Timer[F], C: ContextShift[F]): Stream[F, Nothing] = {
       val pachangaRepo = new PachangaRepositoryInMemory[F]()
       val httpApp = Router(
-          "/order" -> PachangaEndpoints.endpoints[F](pachangaRepo)
+          "/pachanga" -> PachangaEndpoints.endpoints[F](pachangaRepo)
       ).orNotFound
 
       //val finalHttpApp = Logger.httpApp(true, true)(httpApp)
