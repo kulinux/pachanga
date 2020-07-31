@@ -4,8 +4,7 @@ import cats._
 import cats.implicits._
 
 import pachanga.repository.PlayerRepository
-import pachanga.model.Pachanga
-import pachanga.model.Player
+import pachanga.model._
 
 
 class PlayerRepositoryInMemory[F[_]: Applicative] 
@@ -13,6 +12,17 @@ class PlayerRepositoryInMemory[F[_]: Applicative]
 
     private val memory =
         new InMemoryRepository[Player](_.id, (p, id) => p.copy(id = id))
+
+    memory.createWithId(
+          Player(
+            "p1",
+            "Juan",
+            Schedule(Seq(
+                ScheduleItem(ScheduleTypeWeek(1), HourRange( Hour(1, 30), Hour(2, 30)))
+            ))
+        )
+    )
+        
 
     def create(player: Player): F[Player] = 
         memory.create(player).pure[F]

@@ -16,13 +16,17 @@ import cats.effect.ExitCode
 import org.http4s.server.Router
 import pachanga.repository.PachangaRepository
 import pachanga.repository.memory.PachangaRepositoryInMemory
+import pachanga.api.PlayerEndpoints
+import pachanga.repository.memory.PlayerRepositoryInMemory
 
 object Server extends IOApp {
 
   def stream[F[_]: ConcurrentEffect](implicit T: Timer[F], C: ContextShift[F]): Stream[F, Nothing] = {
       val pachangaRepo = new PachangaRepositoryInMemory[F]()
+      val playerRepo = new PlayerRepositoryInMemory[F]()
       val httpApp = Router(
-          "/pachanga" -> PachangaEndpoints.endpoints[F](pachangaRepo)
+          "/pachanga" -> PachangaEndpoints.endpoints[F](pachangaRepo),
+          "/player" -> PlayerEndpoints.endpoints[F](playerRepo)
       ).orNotFound
 
       //val finalHttpApp = Logger.httpApp(true, true)(httpApp)

@@ -13,8 +13,8 @@ class PachangaRepositoryInMemory[F[_]: Applicative]
     private val memory =
         new InMemoryRepository[Pachanga](_.id, (p, id) => p.copy(id = id))
 
-    memory.create(Pachanga("uno", "xxxx", Seq()))
-    memory.create(Pachanga("dos", "xxxx", Seq()))
+    memory.createWithId(Pachanga("uno", "xxxx", Seq("uno", "dos")))
+    memory.createWithId(Pachanga("dos", "xxxx", Seq()))
 
 
     def create(pachanga: Pachanga): F[Pachanga] = 

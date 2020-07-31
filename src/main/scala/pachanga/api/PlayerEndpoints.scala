@@ -16,10 +16,12 @@ import org.http4s.circe._
 import org.http4s.EntityDecoder
 import org.http4s.dsl.Http4sDsl
 import org.http4s.HttpRoutes
+import pachanga.repository.PlayerRepository
+import pachanga.model.Player
 
-class PachangaEndpoints[F[_]: Sync](repo: PachangaRepository[F]) extends Http4sDsl[F] {
+class PlayerEndpoints[F[_]: Sync](repo: PlayerRepository[F]) extends Http4sDsl[F] {
 
-    implicit val playerDecoder: EntityDecoder[F, Pachanga] = jsonOf[F, Pachanga]
+    implicit val playerDecoder: EntityDecoder[F, Player] = jsonOf[F, Player]
 
 
     def routes(): HttpRoutes[F] = {
@@ -36,7 +38,7 @@ class PachangaEndpoints[F[_]: Sync](repo: PachangaRepository[F]) extends Http4sD
 
             case req @ POST -> Root => 
                 for {
-                    pch <- req.as[Pachanga]
+                    pch <- req.as[Player]
                     res <- repo.create(pch)
                     json <- Ok(res.asJson)
                 } yield json
@@ -45,7 +47,7 @@ class PachangaEndpoints[F[_]: Sync](repo: PachangaRepository[F]) extends Http4sD
 
 }
 
-object PachangaEndpoints {
-    def endpoints[F[_]: Sync](repo: PachangaRepository[F]): HttpRoutes[F] =
-        new PachangaEndpoints[F](repo).routes()
+object PlayerEndpoints {
+    def endpoints[F[_]: Sync](repo: PlayerRepository[F]): HttpRoutes[F] =
+        new PlayerEndpoints[F](repo).routes()
 }
