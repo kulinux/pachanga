@@ -23,4 +23,9 @@ class InMemoryRepository[T <: Product](getId: T => String, setId: (T, String) =>
 
     def delete(id: String) = cache.remove(id)
 
+    def update(item: T) = {
+        cache.put(getId(item), item)
+        item
+    }
+
 }

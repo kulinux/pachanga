@@ -22,5 +22,8 @@ class PachangaRepositoryInMemory[F[_]: Applicative]
 
     def get(id: String): F[Option[Pachanga]] =
         memory.get(id).pure[F]
+
+    def update(pachanga: Pachanga): F[Pachanga] = 
+        memory.update(pachanga).pure[F]
   
 }

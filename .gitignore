@@ -1,5 +1,1 @@
-target/
-.bloop/
-.metals/
-.vscode/
-tmp/
+.DS_Store

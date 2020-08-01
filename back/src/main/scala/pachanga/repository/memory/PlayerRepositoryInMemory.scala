@@ -29,5 +29,8 @@ class PlayerRepositoryInMemory[F[_]: Applicative]
 
     def get(id: String): F[Option[Player]] =
         memory.get(id).pure[F]
+
+    def update(player: Player): F[Player] = 
+        memory.update(player).pure[F]
   
 }

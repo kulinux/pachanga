@@ -1,0 +1,30 @@
+header p {
+    text-align: center;
+}
+
+week {
+    display: flex;
+}
+
+day {
+    margin: 0.5em;
+    flex-grow: 1;
+}
+
+
+.hour-schedule {
+    height: 1em;
+}
+
+.hour-schedule:nth-child(even) {
+    background-color: red;
+}
+
+.hour-schedule:nth-child(odd) {
+    background-color: blue;
+}
+
+.hour-schedule:hover {
+    background-color: gray;
+}
+
