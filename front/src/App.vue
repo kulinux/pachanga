@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import Week from './components/Week.vue'
+import Week from './components/Week.vue';
 
 export default {
   name: 'App',
   components: {
     Week
   }
-}
+};
 </script>
 
 <style>

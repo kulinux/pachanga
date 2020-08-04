@@ -1,7 +1,7 @@
 <template>
-    <week>
+    <div>
         Soy week
-    </week>
+    </div>
 </template>
 
 <script>
@@ -9,5 +9,5 @@
 
 export default {
     name: 'Week'
-}
+};
 </script>
