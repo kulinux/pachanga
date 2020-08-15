@@ -1,6 +1,10 @@
 <template>
   <div class="day">
-    <p>{{name}}</p>
+    <p>
+      <button @click="all">+</button>
+      {{name}}
+      <button @click="none">-</button>
+    </p>
     <div class="day-hours">
       <Hour v-for="(hour, index) in hours"
         :hour="hour"
@@ -8,7 +12,8 @@
         :index="index"
         :selected="selected[index]"
         @hourClick="hourClick"
-        @hourMouseOver="hourMouseOver"
+        @hourMouseEnter="hourMouseEnter"
+        @hourMouseLeave="hourMouseLeave"
         :selectedOnMouseOver="selectedOnMouseOver" />
     </div>
   </div>
@@ -34,21 +39,38 @@ export default {
   data() {
     return {
       selectedOnMouseOver: false,
-      selected: this.hours.map(() => false)
+      selected: this.hours.map(() => false),
+      currentIndexSelectedEnter: -1,
+      currentIndexSelectedLeave: -1,
+      currentDirection: 0
     }
   },
   methods: {
     hourClick: function(event) {
+      console.log('HourClick', event)
       this.selectedOnMouseOver = !this.selectedOnMouseOver;
       this.$set(this.selected, event.index, true);
-      console.log('HourClick', event)
     },
-    hourMouseOver: function(event) {
+    hourMouseEnter: function(event) {
       if(this.selectedOnMouseOver) {
-        console.log('HourMouseOver', event)
         this.$set(this.selected, event.index, true);
       }
+      this.currentIndexSelectedEnter = event.index;
+    },
+    hourMouseLeave: function(event) {
+      this.currentIndexSelectedLeave = event.index;
+    },
+    all: function() {
+      this.hours.forEach((value, index) => 
+        this.$set(this.selected, index, true)
+      )
+    },
+    none: function() {
+      this.hours.forEach((value, index) => 
+        this.$set(this.selected, index, false)
+      )
     }
+
   }
 };
 </script>

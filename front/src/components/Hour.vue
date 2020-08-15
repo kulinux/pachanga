@@ -1,9 +1,10 @@
 <template>
   <div class="hour" 
-    v-bind:class="{'is-selected': selected}"
+    v-bind:class="{'is-selected': selected, 'selected-on-hover': selectedOnMouseOver}"
     @click="click"
-    @mouseover="mouseOver">
-    {{hour}}:{{min}}
+    @mouseenter="mouseEnter"
+    @mouseleave="mouseLeave">
+    {{hour}}:{{this.formatMinutes()}}
   </div>
 </template>
 
@@ -17,6 +18,7 @@ export default {
         default: 0
     },
     selected: Boolean,
+    selectedOnMouseOver: Boolean,
     index: Number
   },
   methods: {
@@ -26,8 +28,15 @@ export default {
     click: function() {
       this.$emit('hourClick', this.getState());
     },
-    mouseOver: function() {
-      this.$emit('hourMouseOver', this.getState());
+    mouseEnter: function() {
+      this.$emit('hourMouseEnter', this.getState());
+    },
+    mouseLeave: function() {
+      this.$emit('hourMouseLeave', this.getState());
+    },
+    formatMinutes() {
+      if((this.min + '').length == 1) return ('0' + this.min);
+      return this.min;
     }
   }
 
@@ -38,16 +47,19 @@ export default {
 .hour {
   border-style: solid;
   border-width: 0.02em;
+  cursor: pointer;
 }
 
 .hour:hover {
   background-color: gray;
   color: white;
-  cursor: pointer;
 }
 .is-selected {
   background-color: black;
   color: white;
+}
+.selected-on-hover {
+  cursor: grabbing;
 }
 
 </style>

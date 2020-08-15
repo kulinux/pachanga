@@ -29,6 +29,7 @@ export default {
 <style>
     .week {
         display: flex;
+        font-size: 12px;
     }
 
     .day {
