@@ -29,10 +29,10 @@ export default {
       this.$emit('hourClick', this.getState());
     },
     mouseEnter: function() {
-      this.$emit('hourMouseEnter', this.getState());
+      if(this.selectedOnMouseOver) this.$emit('hourMouseEnter', this.getState());
     },
     mouseLeave: function() {
-      this.$emit('hourMouseLeave', this.getState());
+      if(this.selectedOnMouseOver) this.$emit('hourMouseLeave', this.getState());
     },
     formatMinutes() {
       if((this.min + '').length == 1) return ('0' + this.min);

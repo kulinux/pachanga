@@ -42,12 +42,20 @@ export default {
       selected: this.hours.map(() => false),
       currentIndexSelectedEnter: -1,
       currentIndexSelectedLeave: -1,
-      currentDirection: 0
+      currentDirection: 0,
+      from: {hour: -1, min: -1},
+      to: {hour: -1, to: -1}
     }
   },
   methods: {
     hourClick: function(event) {
-      console.log('HourClick', event)
+      if(!this.selectedOnMouseOver) {
+        this.from = {hour: event.hour, min: event.min}
+      } else {
+        this.to = {hour: event.hour, min: event.min}
+        this.$emit('rangeAdd', {day: this.name, from: this.from, to: this.to})
+      }
+
       this.selectedOnMouseOver = !this.selectedOnMouseOver;
       this.$set(this.selected, event.index, true);
     },
@@ -64,13 +72,18 @@ export default {
       this.hours.forEach((value, index) => 
         this.$set(this.selected, index, true)
       )
+      this.$emit('rangeAll', {
+        day: this.name
+      })
     },
     none: function() {
       this.hours.forEach((value, index) => 
         this.$set(this.selected, index, false)
       )
+      this.$emit('rangeClear', {
+        day: this.name
+      })
     }
-
   }
 };
 </script>
